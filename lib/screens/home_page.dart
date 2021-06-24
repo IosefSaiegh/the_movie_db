@@ -195,7 +195,9 @@ class _HomePageState extends State<HomePage> {
           future: peliculasProvider.getPopulares(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              return CardSlider(peliculas: snapshot.data);
+              return CardSlider(
+                peliculas: snapshot.data,
+              );
             } else if (snapshot.hasError) {
               return Text('Sin conexion');
             } else {

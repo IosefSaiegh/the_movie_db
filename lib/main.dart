@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:the_movie_db/screens/detalle_page.dart';
 import 'package:the_movie_db/screens/home_page.dart';
 
 void main() => runApp(MyApp());
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (BuildContext context) => HomePage(),
+        'detalle': (BuildContext context) => DetallePage()
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

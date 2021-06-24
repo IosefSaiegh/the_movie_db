@@ -5,7 +5,6 @@ import 'package:the_movie_db/models/modelo.dart';
 
 class CardSlider extends StatelessWidget {
   final List<Pelicula> peliculas;
-
   CardSlider({required this.peliculas});
   @override
   Widget build(BuildContext context) {
@@ -18,14 +17,23 @@ class CardSlider extends StatelessWidget {
       height: tamanioDeDispositivo.height * 0.5,
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: FadeInImage(
-              placeholder: AssetImage('assets/img/no-image.jpg'),
-              image: NetworkImage(
-                peliculas[index].getPosterImg(),
+          return GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                'detalle',
+                arguments: peliculas,
+              );
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: FadeInImage(
+                placeholder: AssetImage('assets/img/no-image.jpg'),
+                image: NetworkImage(
+                  peliculas[index].getPosterImg(),
+                ),
+                fit: BoxFit.cover,
               ),
-              fit: BoxFit.cover,
             ),
           );
         },
