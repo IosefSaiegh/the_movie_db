@@ -17,16 +17,16 @@ class CardSlider extends StatelessWidget {
       height: tamanioDeDispositivo.height * 0.5,
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                'detalle',
-                arguments: peliculas,
-              );
-            },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  'detalle',
+                  arguments: peliculas[index],
+                );
+              },
               child: FadeInImage(
                 placeholder: AssetImage('assets/img/no-image.jpg'),
                 image: NetworkImage(

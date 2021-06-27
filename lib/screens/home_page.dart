@@ -18,6 +18,7 @@ class _HomePageState extends State<HomePage> {
 
   final estiloNoSelected = GoogleFonts.raleway(
     fontSize: 18.0,
+    color: Colors.redAccent[700],
   );
   int _selectedTabIndex = 0;
 
@@ -32,23 +33,23 @@ class _HomePageState extends State<HomePage> {
                 elevation: 0.0,
                 title: Text(
                   'The Movie DB',
-                  style: TextStyle(
-                    color: Colors.red,
+                  style: GoogleFonts.raleway(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.redAccent[700],
                   ),
                 ),
                 bottom: _selectedTabIndex == 0
                     ? TabBar(
                         unselectedLabelStyle: estiloNoSelected,
                         labelStyle: GoogleFonts.raleway(
-                          fontSize: 20.0,
+                          fontSize: 18.0,
                           fontWeight: FontWeight.w700,
                         ),
                         unselectedLabelColor: Colors.red,
                         labelColor: Colors.white,
-                        // indicatorPadding: EdgeInsets.symmetric(horizontal: 50.0),
                         indicator: BoxDecoration(
                           shape: BoxShape.rectangle,
-                          color: Colors.red,
+                          color: Colors.redAccent[700],
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                         tabs: [
@@ -69,16 +70,25 @@ class _HomePageState extends State<HomePage> {
                 backgroundColor: Colors.white,
               )
             : AppBar(
+                title: Text(
+                  'Busqueda de peliculas',
+                  style: GoogleFonts.raleway(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.redAccent[700],
+                  ),
+                ),
+                centerTitle: true,
                 backgroundColor: Colors.white,
                 actions: [
                   IconButton(
                     onPressed: () {},
                     icon: Icon(
                       Boxicons.bx_search,
-                      color: Colors.red,
+                      color: Colors.redAccent[700],
                     ),
                   )
                 ],
+                elevation: 0.0,
               ),
         backgroundColor: Colors.white,
         body: _selectedTabIndex == 0
@@ -106,8 +116,8 @@ class _HomePageState extends State<HomePage> {
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
-              topRight: Radius.circular(30),
-              topLeft: Radius.circular(30),
+              topRight: Radius.circular(10.0),
+              topLeft: Radius.circular(10.0),
             ),
             boxShadow: [
               BoxShadow(
@@ -119,8 +129,8 @@ class _HomePageState extends State<HomePage> {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30.0),
-              topRight: Radius.circular(30.0),
+              topLeft: Radius.circular(15.0),
+              topRight: Radius.circular(15.0),
             ),
             child: BottomAppBar(
               notchMargin: 5.0,
@@ -132,12 +142,19 @@ class _HomePageState extends State<HomePage> {
                   BottomNavigationBarItem(
                     icon: Icon(Boxicons.bx_movie),
                     label: 'Peliculas',
-                    // backgroundColor: Colors.red,
-                    activeIcon: Icon(Boxicons.bxs_movie),
+                    activeIcon: Icon(
+                      Boxicons.bxs_movie,
+                      color: Colors.redAccent[700],
+                    ),
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Boxicons.bx_search),
-                    activeIcon: Icon(Boxicons.bxs_search),
+                    icon: Icon(
+                      Boxicons.bx_search,
+                    ),
+                    activeIcon: Icon(
+                      Boxicons.bxs_search,
+                      color: Colors.redAccent[700],
+                    ),
                     label: 'Buscar',
                   )
                 ],
@@ -147,8 +164,10 @@ class _HomePageState extends State<HomePage> {
                 iconSize: 25.0,
                 onTap: _onBottomMenuTapped,
                 showUnselectedLabels: false,
-                selectedLabelStyle:
-                    GoogleFonts.raleway(fontWeight: FontWeight.w600),
+                selectedLabelStyle: GoogleFonts.raleway(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.redAccent[700],
+                ),
               ),
             ),
           ),
