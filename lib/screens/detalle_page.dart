@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:the_movie_db/models/actores_modelo.dart';
 
 import 'package:the_movie_db/models/modelo.dart';
+import 'package:the_movie_db/providers/provide_pelicula.dart';
 import 'package:the_movie_db/widgets/ictxt.dart';
 
 class DetallePage extends StatelessWidget {
+  final peliculasProvider = new PeliculasProvider();
+
   @override
   Widget build(BuildContext context) {
     final Pelicula pelicula =
@@ -55,7 +59,7 @@ class DetallePage extends StatelessWidget {
             delegate: SliverChildListDelegate(
               [
                 SizedBox(
-                  height: 10.0,
+                  height: 30.0,
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -82,7 +86,7 @@ class DetallePage extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              height: 5.0,
+                              height: 10.0,
                             ),
                             IcTxtWidget(
                               backgroundColor: Colors.redAccent[700],
@@ -109,10 +113,98 @@ class DetallePage extends StatelessWidget {
                     ),
                   ),
                 ),
+                FutureBuilder(
+                  future: peliculasProvider.getActor(pelicula.id.toString()),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Actor>> snapshot) {
+                    if (snapshot.hasData) {
+                      return crearPageView(snapshot.data);
+                    } else if (snapshot.hasError) {
+                      return Text('No hay conexion a internet');
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.redAccent[700],
+                        ),
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Widget crearPageView(List<Actor>? actores) {
+    return SizedBox(
+      height: 225.0,
+      child: PageView.builder(
+        pageSnapping: false,
+        controller: PageController(
+          viewportFraction: 0.4,
+          initialPage: 1,
+        ),
+        itemCount: actores?.length,
+        itemBuilder: (context, i) {
+          final actorNombre = actores?[i].name;
+          final actorCaracter = actores?[i].character;
+
+          return Container(
+            padding: EdgeInsets.only(
+              bottom: 7.5,
+            ),
+            width: 150.0,
+            height: 150.0,
+            child: Card(
+              borderOnForeground: true,
+              elevation: 1.5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    actores?[i].getFoto() == null
+                        ? CircularProgressIndicator()
+                        : CircleAvatar(
+                            maxRadius: 45.0,
+                            backgroundColor: Colors.redAccent[700],
+                            backgroundImage:
+                                NetworkImage(actores?[i].getFoto()),
+                          ),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    Text(
+                      actorCaracter.toString(),
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.raleway(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 3.0,
+                    ),
+                    Text(
+                      actorNombre.toString(),
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.raleway(
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

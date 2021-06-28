@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:http/http.dart' as http;
 import 'package:the_movie_db/models/actores_modelo.dart';
 import 'dart:convert';
@@ -41,5 +39,17 @@ class PeliculasProvider {
     final decodedData = jsonDecode(respuesta.body);
     final cast = Cast.fromJsonList(decodedData['cast']);
     return cast.actores;
+  }
+
+  Future<List<Pelicula>> buscarPelicula(String query) async {
+    final url = Uri.https(_url, '3/search/movie', {
+      'api_key': _apiKey,
+      'language': _language,
+      'query': query,
+    });
+    final respuesta = await http.get(url);
+    final decodedData = json.decode(respuesta.body);
+    final peliculas = Peliculas.fromJsonList(decodedData['results']);
+    return peliculas.items;
   }
 }

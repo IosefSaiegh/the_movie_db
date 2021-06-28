@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:the_movie_db/models/modelo.dart';
 
 import 'package:the_movie_db/providers/provide_pelicula.dart';
 import 'package:the_movie_db/screens/search_page.dart';
-import 'package:the_movie_db/widgets/movie_horizontal.dart';
+import 'package:the_movie_db/search/search_delegate.dart';
 import 'package:the_movie_db/widgets/swiper_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -81,7 +80,12 @@ class _HomePageState extends State<HomePage> {
                 backgroundColor: Colors.white,
                 actions: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showSearch(
+                        context: context,
+                        delegate: DataSearch(),
+                      );
+                    },
                     icon: Icon(
                       Boxicons.bx_search,
                       color: Colors.redAccent[700],
@@ -98,17 +102,50 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        populares(context),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FutureBuilder(
+                              future: peliculasProvider.getPopulares(),
+                              builder: (
+                                BuildContext context,
+                                AsyncSnapshot snapshot,
+                              ) {
+                                if (snapshot.hasData) {
+                                  return CardSlider(
+                                    peliculas: snapshot.data,
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Text('Sin conexion');
+                                } else {
+                                  return CircularProgressIndicator();
+                                }
+                              },
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        swiperTarjetas(),
-                      ],
-                    ),
+                  FutureBuilder(
+                    future: peliculasProvider.getTopRated(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return CardSlider(
+                          peliculas: snapshot.data,
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('No hay conexion a internet');
+                      } else {
+                        return Container(
+                          height: 400.0,
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ],
               )
@@ -129,8 +166,8 @@ class _HomePageState extends State<HomePage> {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15.0),
-              topRight: Radius.circular(15.0),
+              topLeft: Radius.circular(0.0),
+              topRight: Radius.circular(0.0),
             ),
             child: BottomAppBar(
               notchMargin: 5.0,
@@ -160,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                 ],
                 selectedFontSize: 16.0,
                 currentIndex: _selectedTabIndex,
-                elevation: 1.0,
+                elevation: 0.0,
                 iconSize: 25.0,
                 onTap: _onBottomMenuTapped,
                 showUnselectedLabels: false,
@@ -181,50 +218,5 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedTabIndex = index;
     });
-  }
-
-  Widget swiperTarjetas() {
-    return FutureBuilder(
-      future: peliculasProvider.getTopRated(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          return CardSlider(
-            peliculas: snapshot.data,
-          );
-        } else if (snapshot.hasError) {
-          return Text('No hay conexion a internet');
-        } else {
-          return Container(
-            height: 400.0,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-      },
-    );
-  }
-
-  Widget populares(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        FutureBuilder(
-          future: peliculasProvider.getPopulares(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return CardSlider(
-                peliculas: snapshot.data,
-              );
-            } else if (snapshot.hasError) {
-              return Text('Sin conexion');
-            } else {
-              return CircularProgressIndicator();
-            }
-          },
-        ),
-      ],
-    );
   }
 }
