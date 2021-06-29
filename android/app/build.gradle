@@ -40,6 +40,7 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionCode
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -59,4 +60,8 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.2.0')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-appcheck-debug:16.0.0-beta01'
+    implementation 'com.android.support:multidex:1.0.3'
+
+
 }

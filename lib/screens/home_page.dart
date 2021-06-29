@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:the_movie_db/bloc/provide.dart';
 
 import 'package:the_movie_db/providers/provide_pelicula.dart';
 import 'package:the_movie_db/screens/search_page.dart';
@@ -23,6 +24,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = Provider.of(context);
     return DefaultTabController(
       length: 2,
       initialIndex: 0,
@@ -113,6 +115,9 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
+                        // bloc.userName.isNotEmpty
+                        //     ? Text('Hola, ${Provider.of(context).userName}')
+                        //     : Container(),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,

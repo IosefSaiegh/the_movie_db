@@ -1,113 +1,10 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_boxicons/flutter_boxicons.dart';
-// import 'package:fluttericon/font_awesome5_icons.dart';
-// import 'package:google_fonts/google_fonts.dart';
-
-// class LoginScreen extends StatefulWidget {
-//   @override
-//   _LoginScreenState createState() => _LoginScreenState();
-// }
-
-// class _LoginScreenState extends State<LoginScreen> {
-//   final _formKey = GlobalKey<FormState>();
-
-//   bool oculto = true;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(
-//           'Iniciar Sesion',
-//           style: GoogleFonts.raleway(
-//             color: Colors.redAccent[700],
-//           ),
-//         ),
-//         backgroundColor: Colors.white,
-//         leading: IconButton(
-//           icon: Icon(
-//             Boxicons.bx_arrow_back,
-//             color: Colors.redAccent[700],
-//           ),
-//           onPressed: () {
-//             Navigator.pop(context);
-//           },
-//         ),
-//       ),
-//       body: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           SingleChildScrollView(
-//             padding: EdgeInsets.all(10.0),
-//             child: Form(
-//               autovalidateMode: AutovalidateMode.onUserInteraction,
-//               key: _formKey,
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 crossAxisAlignment: CrossAxisAlignment.center,
-//                 children: [
-//                   TextFormField(
-//                     style: GoogleFonts.raleway(fontSize: 25.0),
-//                     keyboardType: TextInputType.emailAddress,
-//                     decoration: InputDecoration(
-//                       border: OutlineInputBorder(
-//                         borderRadius: BorderRadius.circular(10.0),
-//                       ),
-//                       labelText: 'Correo electronico',
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     height: 20,
-//                   ),
-//                   TextFormField(
-//                     style: GoogleFonts.raleway(fontSize: 25.0),
-//                     decoration: InputDecoration(
-//                       fillColor: Color(0xFFD50000),
-//                       border: OutlineInputBorder(
-//                         borderRadius: BorderRadius.circular(10.0),
-//                       ),
-//                       labelText: 'Contraseña',
-//                       suffixIcon: IconButton(
-//                         color: Color(0xFFD50000),
-//                         onPressed: () {
-//                           if (oculto == true) {
-//                             setState(() {
-//                               oculto = false;
-//                             });
-//                           } else {
-//                             setState(() {
-//                               oculto = true;
-//                             });
-//                           }
-//                         },
-//                         icon: oculto == true
-//                             ? Icon(FontAwesome5.eye)
-//                             : Icon(FontAwesome5.eye_slash),
-//                       ),
-//                     ),
-//                     obscureText: oculto,
-//                   ),
-//                   ElevatedButton(
-//                     onPressed: () {},
-//                     child: Text('Iniciar Sesion'),
-
-//                   )
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:the_movie_db/bloc/login_bloc.dart';
 import 'package:the_movie_db/bloc/provide.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -115,9 +12,60 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+        child: Container(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: 15.0,
+              top: 20.0,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  'Login',
+                  style: GoogleFonts.raleway(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.redAccent.shade700,
+                Colors.red,
+              ],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.transparent,
+                blurRadius: 0.0,
+                spreadRadius: 0.0,
+              )
+            ],
+          ),
+        ),
+        preferredSize: Size(MediaQuery.of(context).size.width, 150.0),
+      ),
       body: Stack(
         children: <Widget>[
           _crearFondo(context),
@@ -144,16 +92,17 @@ class _LoginScreenState extends State<LoginScreen> {
             margin: EdgeInsets.symmetric(vertical: 30.0),
             padding: EdgeInsets.symmetric(vertical: 50.0),
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(5.0),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 3.0,
-                    offset: Offset(0.0, 5.0),
-                    spreadRadius: 3.0,
-                  )
-                ]),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 3.0,
+                  offset: Offset(0.0, 5.0),
+                  spreadRadius: 3.0,
+                )
+              ],
+            ),
             child: Column(
               children: <Widget>[
                 Text(
@@ -169,7 +118,15 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ),
-          Text('¿Olvido la contraseña?'),
+          TextButton(
+            onPressed: () {
+              Navigator.pushNamed(context, 'signup');
+            },
+            child: Text(
+              'Registrar',
+              style: GoogleFonts.raleway(fontSize: 20.0),
+            ),
+          ),
           SizedBox(height: 100.0)
         ],
       ),
@@ -212,48 +169,27 @@ class _LoginScreenState extends State<LoginScreen> {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: TextField(
-              decoration: InputDecoration(
-                icon: Icon(
-                  Icons.lock_outline,
-                  color: Colors.redAccent[700],
-                ),
-                suffixIcon: IconButton(
-                  color: Color(0xFFD50000),
-                  onPressed: () {
-                    if (oculto == true) {
-                      setState(() {
-                        oculto = false;
-                      });
-                    } else {
-                      setState(() {
-                        oculto = true;
-                      });
-                    }
-                  },
-                  icon: oculto == true
-                      ? Icon(FontAwesome5.eye)
-                      : Icon(FontAwesome5.eye_slash),
-                ),
-                labelText: 'Contraseña',
-                labelStyle: GoogleFonts.raleway(
-                  color: Colors.redAccent[700],
-                ),
-                errorText: snapshot.hasError ? snapshot.error.toString() : null,
-                errorStyle: GoogleFonts.raleway(),
+            decoration: InputDecoration(
+              icon: Icon(
+                Icons.lock_outline,
+                color: Colors.redAccent[700],
               ),
-              onChanged: bloc.changePassword,
-              obscureText: false // == true ? true : false,
+              labelText: 'Contraseña',
+              labelStyle: GoogleFonts.raleway(
+                color: Colors.redAccent[700],
               ),
+              errorText: snapshot.hasError ? snapshot.error.toString() : null,
+              errorStyle: GoogleFonts.raleway(),
+            ),
+            onChanged: bloc.changePassword,
+            obscureText: false,
+          ),
         );
       },
     );
   }
 
   Widget _crearBoton(LoginBloc bloc) {
-    // formValidStream
-    // snapshot.hasData
-    //  true ? algo si true : algo si false
-
     return StreamBuilder(
       stream: bloc.formValidStream,
       builder: (
@@ -273,12 +209,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               shadowColor: MaterialStateProperty.all(Colors.black),
               textStyle: MaterialStateProperty.all(
-                GoogleFonts.raleway(
-                  color: Colors.deepPurple,
-                ),
+                GoogleFonts.raleway(),
               ),
             ),
-            onPressed: snapshot.hasData ? () => _login(bloc, context) : null);
+            onPressed: snapshot.hasData ? () => signIn(bloc) : null);
       },
     );
   }
@@ -316,12 +250,11 @@ class _LoginScreenState extends State<LoginScreen> {
       children: <Widget>[
         fondoRojo,
         Positioned(top: 90.0, left: 30.0, child: circulo),
-        Positioned(top: -40.0, right: -30.0, child: circulo),
         Positioned(bottom: -50.0, right: -10.0, child: circulo),
         Positioned(bottom: 120.0, right: 20.0, child: circulo),
         Positioned(bottom: -50.0, left: -20.0, child: circulo),
         Container(
-          padding: EdgeInsets.only(top: 80.0),
+          padding: EdgeInsets.only(top: 30.0),
           child: Column(
             children: <Widget>[
               Icon(
@@ -342,5 +275,93 @@ class _LoginScreenState extends State<LoginScreen> {
         )
       ],
     );
+  }
+
+  void signIn(LoginBloc bloc) async {
+    bloc.changeEmail;
+    bloc.changePassword;
+    String email = bloc.email.trim();
+    String password = bloc.password;
+    if (email.isNotEmpty && password.isNotEmpty) {
+      auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((user) {
+        showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: Text(
+                'Listo',
+                style: GoogleFonts.raleway(),
+              ),
+              content: Text(
+                'Iniciaste sesion con exito!',
+                style: GoogleFonts.raleway(),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/');
+                  },
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.raleway(),
+                  ),
+                )
+              ],
+            );
+          },
+        );
+      }).catchError((error) {
+        showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: Text(
+                'Error',
+                style: GoogleFonts.raleway(),
+              ),
+              content: Text(error),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.raleway(),
+                  ),
+                )
+              ],
+            );
+          },
+        );
+      });
+    } else {
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('Rellena los datos correspondientes'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  setState(() {
+                    email = "";
+                    password = "";
+                  });
+                },
+                child: Text(
+                  'Ok',
+                  style: GoogleFonts.raleway(),
+                ),
+              )
+            ],
+          );
+        },
+      );
+    }
   }
 }
