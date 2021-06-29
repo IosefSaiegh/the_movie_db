@@ -37,6 +37,17 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.redAccent[700],
                   ),
                 ),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'login');
+                    },
+                    icon: Icon(
+                      Boxicons.bx_user,
+                      color: Colors.redAccent[700],
+                    ),
+                  )
+                ],
                 bottom: _selectedTabIndex == 0
                     ? TabBar(
                         unselectedLabelStyle: estiloNoSelected,

@@ -19,6 +19,7 @@ dependencies:
   google_fonts: ^2.1.0
   fluttericon: ^2.0.0
   flutter_boxicons: ^3.0.0
+  rxdart: ^0.27.1
   
 
 # flutter_icons:
