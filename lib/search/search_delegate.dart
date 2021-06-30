@@ -9,6 +9,7 @@ import 'package:the_movie_db/widgets/ictxt.dart';
 
 class DataSearch extends SearchDelegate {
   final peliculasProvider = new PeliculasProvider();
+  String get searchFieldLabel => "Buscar";
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
