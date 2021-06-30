@@ -20,7 +20,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: <Color>[
+          colors: [
             Colors.redAccent.shade700,
             Colors.red,
           ],

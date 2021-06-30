@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:the_movie_db/models/modelo.dart';
 import 'package:the_movie_db/providers/provide_pelicula.dart';
 import 'package:the_movie_db/widgets/ictxt.dart';
@@ -14,7 +16,10 @@ class DataSearch extends SearchDelegate {
         onPressed: () {
           query = '';
         },
-        icon: Icon(Icons.clear),
+        icon: Icon(
+          Icons.clear,
+          color: Colors.redAccent[700],
+        ),
       ),
     ];
   }
@@ -22,10 +27,14 @@ class DataSearch extends SearchDelegate {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-        onPressed: () {
-          close(context, null);
-        },
-        icon: Icon(Boxicons.bx_arrow_back));
+      onPressed: () {
+        close(context, null);
+      },
+      icon: Icon(
+        Boxicons.bx_arrow_back,
+        color: Colors.redAccent[700],
+      ),
+    );
   }
 
   @override
@@ -50,7 +59,6 @@ class DataSearch extends SearchDelegate {
                 child: Card(
                   margin: EdgeInsets.all(10.0),
                   child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
                         padding: EdgeInsets.all(8.0),
