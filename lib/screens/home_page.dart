@@ -115,9 +115,6 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        // bloc.userName.isNotEmpty
-                        //     ? Text('Hola, ${Provider.of(context).userName}')
-                        //     : Container(),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -229,7 +226,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  /// This is the stateful widget that the main application instantiates.
   void _onBottomMenuTapped(int index) {
     setState(() {
       _selectedTabIndex = index;

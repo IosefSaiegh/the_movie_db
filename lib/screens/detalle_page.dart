@@ -118,7 +118,76 @@ class DetallePage extends StatelessWidget {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Actor>> snapshot) {
                     if (snapshot.hasData) {
-                      return crearPageView(snapshot.data);
+                      return SizedBox(
+                        height: 225.0,
+                        child: PageView.builder(
+                          pageSnapping: false,
+                          controller: PageController(
+                            viewportFraction: 0.4,
+                            initialPage: 1,
+                          ),
+                          itemCount: snapshot.data?.length,
+                          itemBuilder: (context, i) {
+                            final actorNombre = snapshot.data?[i].name;
+                            final actorCaracter = snapshot.data?[i].character;
+
+                            return Container(
+                              padding: EdgeInsets.only(
+                                bottom: 7.5,
+                              ),
+                              width: 150.0,
+                              height: 150.0,
+                              child: Card(
+                                borderOnForeground: true,
+                                elevation: 1.5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Container(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      snapshot.data?[i].getFoto() == null
+                                          ? CircularProgressIndicator()
+                                          : CircleAvatar(
+                                              maxRadius: 45.0,
+                                              backgroundColor:
+                                                  Colors.redAccent[700],
+                                              backgroundImage: NetworkImage(
+                                                  snapshot.data?[i].getFoto()),
+                                            ),
+                                      SizedBox(
+                                        height: 8.0,
+                                      ),
+                                      Text(
+                                        actorCaracter.toString(),
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.raleway(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 3.0,
+                                      ),
+                                      Text(
+                                        actorNombre.toString(),
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.raleway(
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
                     } else if (snapshot.hasError) {
                       return Text('No hay conexion a internet');
                     } else {
@@ -134,77 +203,6 @@ class DetallePage extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-
-  Widget crearPageView(List<Actor>? actores) {
-    return SizedBox(
-      height: 225.0,
-      child: PageView.builder(
-        pageSnapping: false,
-        controller: PageController(
-          viewportFraction: 0.4,
-          initialPage: 1,
-        ),
-        itemCount: actores?.length,
-        itemBuilder: (context, i) {
-          final actorNombre = actores?[i].name;
-          final actorCaracter = actores?[i].character;
-
-          return Container(
-            padding: EdgeInsets.only(
-              bottom: 7.5,
-            ),
-            width: 150.0,
-            height: 150.0,
-            child: Card(
-              borderOnForeground: true,
-              elevation: 1.5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Container(
-                padding: EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    actores?[i].getFoto() == null
-                        ? CircularProgressIndicator()
-                        : CircleAvatar(
-                            maxRadius: 45.0,
-                            backgroundColor: Colors.redAccent[700],
-                            backgroundImage:
-                                NetworkImage(actores?[i].getFoto()),
-                          ),
-                    SizedBox(
-                      height: 8.0,
-                    ),
-                    Text(
-                      actorCaracter.toString(),
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.raleway(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 3.0,
-                    ),
-                    Text(
-                      actorNombre.toString(),
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.raleway(
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
       ),
     );
   }
