@@ -40,7 +40,6 @@ class DataSearch extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: Crea resultado
     return Container();
   }
 
