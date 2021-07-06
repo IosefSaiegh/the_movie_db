@@ -22,7 +22,7 @@ class DetallePage extends StatelessWidget {
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios_rounded,
-                color: Colors.redAccent[700],
+                color: Colors.white30,
               ),
               onPressed: () {
                 Navigator.pop(context);
@@ -35,14 +35,19 @@ class DetallePage extends StatelessWidget {
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
-              title: Text(
-                pelicula.title.toString(),
-                style: GoogleFonts.raleway(
-                  textStyle: TextStyle(
-                    color: Colors.redAccent[700],
-                    fontSize: 16.0,
+              title: Container(
+                width: double.infinity,
+                alignment: Alignment.bottomCenter,
+                color: Colors.black12,
+                child: Text(
+                  pelicula.title.toString(),
+                  style: GoogleFonts.raleway(
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    ),
+                    fontWeight: FontWeight.w700,
                   ),
-                  fontWeight: FontWeight.w700,
                 ),
               ),
               background: FadeInImage(
