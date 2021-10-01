@@ -39,6 +39,7 @@ class DetallePage extends StatelessWidget {
                 width: double.infinity,
                 alignment: Alignment.bottomCenter,
                 color: Colors.black26,
+                height: 200.0,
                 child: Text(
                   pelicula.title.toString(),
                   style: GoogleFonts.raleway(
