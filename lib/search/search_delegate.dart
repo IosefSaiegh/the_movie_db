@@ -45,7 +45,7 @@ class DataSearch extends SearchDelegate {
         child: Text(
           'No has buscado nada',
           style: GoogleFonts.raleway(
-            fontSize: 40,
+            fontSize: 20,
           ),
         ),
       );
@@ -55,11 +55,16 @@ class DataSearch extends SearchDelegate {
       builder: (BuildContext context, AsyncSnapshot<List<Pelicula>> snapshot) {
         if (snapshot.hasData) {
           final peliculas = snapshot.data;
-          return ListView(
-            children: peliculas!.map((pelicula) {
+          return ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 child: Card(
                   margin: EdgeInsets.all(10.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  elevation: 10,
                   child: Row(
                     children: [
                       Padding(
@@ -69,7 +74,7 @@ class DataSearch extends SearchDelegate {
                           child: FadeInImage(
                             placeholder: AssetImage('assets/img/no-image.jpg'),
                             image: NetworkImage(
-                              pelicula.getPosterImg(),
+                              peliculas![index].getPosterImg(),
                             ),
                             width: 100.0,
                             height: 125.0,
@@ -82,16 +87,16 @@ class DataSearch extends SearchDelegate {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            pelicula.title.toString(),
+                            peliculas[index].title.toString(),
                             style: GoogleFonts.raleway(
                               fontSize: 25.0,
                               fontWeight: FontWeight.w600,
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
+                            overflow: TextOverflow.fade,
+                            maxLines: 3,
                           ),
                           Text(
-                            pelicula.originalTitle.toString(),
+                            peliculas[index].originalTitle.toString(),
                             style: GoogleFonts.raleway(
                               fontSize: 20.0,
                               fontWeight: FontWeight.w500,
@@ -99,20 +104,24 @@ class DataSearch extends SearchDelegate {
                           ),
                           Row(
                             children: [
-                              pelicula.voteAverage == null
+                              peliculas[index].voteAverage == null
                                   ? Container()
                                   : IcTxtWidget(
                                       backgroundColor: Colors.redAccent[700],
                                       icon: Boxicons.bx_star,
-                                      text: pelicula.voteAverage.toString(),
+                                      text: peliculas[index]
+                                          .voteAverage
+                                          .toString(),
                                     ),
                               SizedBox(width: 5.0),
-                              pelicula.releaseDate == null
+                              peliculas[index].releaseDate == null
                                   ? Container()
                                   : IcTxtWidget(
                                       backgroundColor: Colors.redAccent[700],
                                       icon: Boxicons.bx_calendar,
-                                      text: pelicula.releaseDate.toString(),
+                                      text: peliculas[index]
+                                          .releaseDate
+                                          .toString(),
                                     ),
                             ],
                           )
@@ -122,11 +131,20 @@ class DataSearch extends SearchDelegate {
                   ),
                 ),
                 onTap: () {
-                  close(context, null);
-                  Navigator.pushNamed(context, 'detalle', arguments: pelicula);
+                  Navigator.pushNamed(
+                    context,
+                    'detalle',
+                    arguments: peliculas[index],
+                  );
                 },
               );
-            }).toList(),
+            },
+            itemCount: peliculas!.length,
+
+            // itemWidth: tamanioDeDispositivo.width * 0.7,
+            // itemHeight: 400.0,
+            // layout: SwiperLayout.TINDER,
+            // control: SwiperControl(),
           );
         } else if (snapshot.hasError) {
           return Center(child: Text('Sin conexion'));
@@ -147,7 +165,9 @@ class DataSearch extends SearchDelegate {
       return Center(
         child: Text(
           'No has buscado nada',
-          style: GoogleFonts.raleway(),
+          style: GoogleFonts.raleway(
+            fontSize: 20,
+          ),
         ),
       );
     }

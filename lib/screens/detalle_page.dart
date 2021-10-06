@@ -28,7 +28,7 @@ class DetallePage extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-            elevation: 2.0,
+            // elevation: 2.0,
             backgroundColor: Colors.white,
             expandedHeight: 200.0,
             floating: false,
@@ -38,8 +38,8 @@ class DetallePage extends StatelessWidget {
               title: Container(
                 width: double.infinity,
                 alignment: Alignment.bottomCenter,
-                color: Colors.black26,
-                height: 200.0,
+                color: Colors.black38,
+                // height: 300.0,
                 child: Text(
                   pelicula.title.toString(),
                   style: GoogleFonts.raleway(
@@ -49,6 +49,7 @@ class DetallePage extends StatelessWidget {
                     ),
                     fontWeight: FontWeight.w700,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
               background: FadeInImage(
@@ -57,7 +58,7 @@ class DetallePage extends StatelessWidget {
                 ),
                 placeholder: AssetImage('assets/img/loading.gif'),
                 fadeInDuration: Duration(seconds: 2),
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
               ),
             ),
           ),

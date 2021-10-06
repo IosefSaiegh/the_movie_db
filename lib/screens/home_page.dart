@@ -1,3 +1,4 @@
+import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -59,10 +60,11 @@ class _HomePageState extends State<HomePage> {
                         ),
                         unselectedLabelColor: Colors.red,
                         labelColor: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: 10),
                         indicator: BoxDecoration(
                           shape: BoxShape.rectangle,
                           color: Colors.redAccent[700],
-                          borderRadius: BorderRadius.circular(30.0),
+                          borderRadius: BorderRadius.circular(15.0),
                         ),
                         tabs: [
                           Tab(
@@ -126,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                                 AsyncSnapshot snapshot,
                               ) {
                                 if (snapshot.hasData) {
-                                  return CardSlider(
+                                  return CardList(
                                     peliculas: snapshot.data,
                                   );
                                 } else if (snapshot.hasError) {
@@ -145,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                     future: peliculasProvider.getTopRated(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
-                        return CardSlider(
+                        return CardList(
                           peliculas: snapshot.data,
                         );
                       } else if (snapshot.hasError) {
@@ -165,61 +167,47 @@ class _HomePageState extends State<HomePage> {
             : SearchPage(),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(10.0),
-              topLeft: Radius.circular(10.0),
-            ),
             boxShadow: [
               BoxShadow(
                 color: Colors.black38,
-                spreadRadius: 0,
+                // spreadRadius: 0,
                 blurRadius: 7,
               ),
             ],
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(0.0),
-              topRight: Radius.circular(0.0),
-            ),
-            child: BottomAppBar(
-              notchMargin: 5.0,
-              shape: CircularNotchedRectangle(),
-              child: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: Colors.grey[180],
-                items: [
-                  BottomNavigationBarItem(
-                    icon: Icon(Boxicons.bx_movie),
-                    label: 'Peliculas',
-                    activeIcon: Icon(
-                      Boxicons.bxs_movie,
-                      color: Colors.redAccent[700],
-                    ),
+          child: CustomNavigationBar(
+            isFloating: false,
+            currentIndex: _selectedTabIndex,
+            // borderRadius: Radius.circular(30.0),
+            unSelectedColor: Colors.grey,
+            onTap: _onBottomMenuTapped,
+            strokeColor: Colors.red,
+            selectedColor: Colors.red,
+            elevation: 0,
+            items: [
+              CustomNavigationBarItem(
+                icon: Icon(
+                  Boxicons.bx_movie,
+                ),
+                selectedTitle: Text(
+                  'Peliculas',
+                  style: GoogleFonts.raleway(
+                    color: Colors.red,
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Boxicons.bx_search,
-                    ),
-                    activeIcon: Icon(
-                      Boxicons.bxs_search,
-                      color: Colors.redAccent[700],
-                    ),
-                    label: 'Buscar',
-                  )
-                ],
-                selectedFontSize: 16.0,
-                currentIndex: _selectedTabIndex,
-                elevation: 0.0,
-                iconSize: 25.0,
-                onTap: _onBottomMenuTapped,
-                showUnselectedLabels: false,
-                selectedLabelStyle: GoogleFonts.raleway(
-                  fontWeight: FontWeight.w600,
-                  color: Colors.redAccent[700],
                 ),
               ),
-            ),
+              CustomNavigationBarItem(
+                icon: Icon(
+                  Boxicons.bx_search,
+                ),
+                selectedTitle: Text(
+                  'Buscar',
+                  style: GoogleFonts.raleway(
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
