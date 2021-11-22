@@ -143,24 +143,35 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  FutureBuilder(
-                    future: peliculasProvider.getTopRated(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        return CardList(
-                          peliculas: snapshot.data,
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('No hay conexion a internet');
-                      } else {
-                        return Container(
-                          height: 400.0,
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      }
-                    },
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FutureBuilder(
+                              future: peliculasProvider.getTopRated(),
+                              builder: (
+                                BuildContext context,
+                                AsyncSnapshot snapshot,
+                              ) {
+                                if (snapshot.hasData) {
+                                  return CardList(
+                                    peliculas: snapshot.data,
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Text('Sin conexion');
+                                } else {
+                                  return CircularProgressIndicator();
+                                }
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ],
               )
