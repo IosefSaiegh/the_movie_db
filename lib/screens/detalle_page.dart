@@ -22,7 +22,7 @@ class DetallePage extends StatelessWidget {
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios_rounded,
-                color: Colors.white30,
+                color: Colors.black54,
               ),
               onPressed: () {
                 Navigator.pop(context);
@@ -35,30 +35,27 @@ class DetallePage extends StatelessWidget {
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
-              title: Container(
-                width: double.infinity,
-                alignment: Alignment.bottomCenter,
-                color: Colors.black38,
-                // height: 300.0,
-                child: Text(
-                  pelicula.title.toString(),
-                  style: GoogleFonts.raleway(
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                    ),
-                    fontWeight: FontWeight.w700,
+              title: Text(
+                pelicula.title.toString(),
+                style: GoogleFonts.raleway(
+                  textStyle: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 16.0,
                   ),
-                  textAlign: TextAlign.center,
+                  fontWeight: FontWeight.w700,
                 ),
+                textAlign: TextAlign.center,
               ),
-              background: FadeInImage(
-                image: NetworkImage(
-                  pelicula.getBackgroundImg(),
+              background: Opacity(
+                opacity: 3.0,
+                child: FadeInImage(
+                  image: NetworkImage(
+                    pelicula.getBackgroundImg(),
+                  ),
+                  placeholder: AssetImage('assets/img/loading.gif'),
+                  fadeInDuration: Duration(seconds: 2),
+                  fit: BoxFit.contain,
                 ),
-                placeholder: AssetImage('assets/img/loading.gif'),
-                fadeInDuration: Duration(seconds: 2),
-                fit: BoxFit.contain,
               ),
             ),
           ),

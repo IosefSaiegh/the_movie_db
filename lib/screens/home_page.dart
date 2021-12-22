@@ -113,65 +113,39 @@ class _HomePageState extends State<HomePage> {
         body: _selectedTabIndex == 0
             ? TabBarView(
                 children: [
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FutureBuilder(
-                              future: peliculasProvider.getPopulares(),
-                              builder: (
-                                BuildContext context,
-                                AsyncSnapshot snapshot,
-                              ) {
-                                if (snapshot.hasData) {
-                                  return CardList(
-                                    peliculas: snapshot.data,
-                                  );
-                                } else if (snapshot.hasError) {
-                                  return Text('Sin conexion');
-                                } else {
-                                  return CircularProgressIndicator();
-                                }
-                              },
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
+                  FutureBuilder(
+                    future: peliculasProvider.getPopulares(),
+                    builder: (
+                      BuildContext context,
+                      AsyncSnapshot snapshot,
+                    ) {
+                      if (snapshot.hasData) {
+                        return CardList(
+                          peliculas: snapshot.data,
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Sin conexion');
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    },
                   ),
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FutureBuilder(
-                              future: peliculasProvider.getTopRated(),
-                              builder: (
-                                BuildContext context,
-                                AsyncSnapshot snapshot,
-                              ) {
-                                if (snapshot.hasData) {
-                                  return CardList(
-                                    peliculas: snapshot.data,
-                                  );
-                                } else if (snapshot.hasError) {
-                                  return Text('Sin conexion');
-                                } else {
-                                  return CircularProgressIndicator();
-                                }
-                              },
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
+                  FutureBuilder(
+                    future: peliculasProvider.getTopRated(),
+                    builder: (
+                      BuildContext context,
+                      AsyncSnapshot snapshot,
+                    ) {
+                      if (snapshot.hasData) {
+                        return CardList(
+                          peliculas: snapshot.data,
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Sin conexion');
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    },
                   ),
                 ],
               )
