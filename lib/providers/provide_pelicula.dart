@@ -36,9 +36,19 @@ class PeliculasProvider {
       'language': _language,
     });
     final respuesta = await http.get(url);
-    final decodedData = jsonDecode(respuesta.body);
+    final decodedData = json.decode(respuesta.body);
     final cast = Cast.fromJsonList(decodedData['cast']);
     return cast.actores;
+  }
+  Future<List<Pelicula>> getActorMovies(int? actorId) async {
+    final url = Uri.https(_url, '3/person/$actorId/movie_credits', {
+      'api_key': _apiKey,
+      'language': _language,
+    });
+    final respuesta = await http.get(url);
+    final decodedData = json.decode(respuesta.body);
+    final cast = Peliculas.fromJsonList(decodedData['cast']);
+    return cast.items;
   }
 
   Future<List<Pelicula>> buscarPelicula(String query) async {

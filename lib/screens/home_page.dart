@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                           peliculas: snapshot.data,
                         );
                       } else if (snapshot.hasError) {
-                        return Text('Sin conexion');
+                        return Text(snapshot.error.toString());
                       } else {
                         return CircularProgressIndicator();
                       }

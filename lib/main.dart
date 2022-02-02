@@ -4,6 +4,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:the_movie_db/bloc/provide.dart';
+import 'package:the_movie_db/screens/actor_detalle.dart';
 
 import 'package:the_movie_db/screens/detalle_page.dart';
 import 'package:the_movie_db/screens/home_page.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
           'detalle': (BuildContext context) => DetallePage(),
           'login': (BuildContext context) => LoginScreen(),
           'signup': (BuildContext context) => SignUpScreen(),
+          'detalleactor': (BuildContext context) => DetalleActorScreen(),
         },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

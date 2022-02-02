@@ -22,7 +22,7 @@ class DetallePage extends StatelessWidget {
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios_rounded,
-                color: Colors.black54,
+                color: Colors.black,
               ),
               onPressed: () {
                 Navigator.pop(context);
@@ -39,7 +39,7 @@ class DetallePage extends StatelessWidget {
                 pelicula.title.toString(),
                 style: GoogleFonts.raleway(
                   textStyle: TextStyle(
-                    color: Colors.black54,
+                    color: Colors.black,
                     fontSize: 16.0,
                   ),
                   fontWeight: FontWeight.w700,
@@ -47,14 +47,14 @@ class DetallePage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               background: Opacity(
-                opacity: 3.0,
+                opacity: 0.6,
                 child: FadeInImage(
                   image: NetworkImage(
                     pelicula.getBackgroundImg(),
                   ),
                   placeholder: AssetImage('assets/img/loading.gif'),
                   fadeInDuration: Duration(seconds: 2),
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -92,16 +92,22 @@ class DetallePage extends StatelessWidget {
                             SizedBox(
                               height: 10.0,
                             ),
-                            IcTxtWidget(
-                              backgroundColor: Colors.redAccent[700],
-                              icon: Boxicons.bx_star,
-                              text: pelicula.voteAverage.toString(),
-                            ),
-                            IcTxtWidget(
-                              backgroundColor: Colors.redAccent[700],
-                              icon: Boxicons.bx_calendar,
-                              text: pelicula.releaseDate.toString(),
-                            ),
+                            Wrap(
+                              spacing: 5,
+                              children: [
+                                IcTxtWidget(
+                                  backgroundColor: Colors.redAccent[700],
+                                  icon: Boxicons.bx_star,
+                                  text: pelicula.voteAverage.toString(),
+                                ),
+                                IcTxtWidget(
+                                  backgroundColor: Colors.redAccent[700],
+                                  icon: Boxicons.bx_calendar,
+                                  text: pelicula.releaseDate.toString(),
+                                ),
+                                
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -119,13 +125,15 @@ class DetallePage extends StatelessWidget {
                 ),
                 FutureBuilder(
                   future: peliculasProvider.getActor(pelicula.id.toString()),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<Actor>> snapshot) {
+                  builder: (
+                    BuildContext context,
+                    AsyncSnapshot<List<Actor>> snapshot,
+                  ) {
                     if (snapshot.hasData) {
                       return SizedBox(
                         height: 225.0,
-                        child: PageView.builder(
-                          pageSnapping: false,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
                           controller: PageController(
                             viewportFraction: 0.4,
                             initialPage: 1,
@@ -135,35 +143,45 @@ class DetallePage extends StatelessWidget {
                             final actorNombre = snapshot.data?[i].name;
                             final actorCaracter = snapshot.data?[i].character;
 
-                            return Container(
-                              padding: EdgeInsets.only(
-                                bottom: 7.5,
-                              ),
-                              width: 150.0,
-                              height: 150.0,
-                              child: Card(
-                                borderOnForeground: true,
-                                elevation: 1.5,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
+                            return InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  'detalleactor',
+                                  arguments: snapshot.data?[i],
+                                );
+                              },
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                  bottom: 7.5,
                                 ),
-                                child: Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      snapshot.data?[i].getFoto() == null
-                                          ? CircularProgressIndicator()
-                                          : CircleAvatar(
-                                              maxRadius: 45.0,
-                                              backgroundColor:
-                                                  Colors.redAccent[700],
-                                              backgroundImage: NetworkImage(
-                                                  snapshot.data?[i].getFoto()),
-                                            ),
-                                      SizedBox(
+                                width: 150.0,
+                                height: 150.0,
+                                child: Card(
+                                  borderOnForeground: true,
+                                  elevation: 2,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        snapshot.data?[i].getFoto() == null
+                                            ? CircularProgressIndicator()
+                                            : CircleAvatar(
+                                                maxRadius: 45.0,
+                                                backgroundColor:
+                                                    Colors.redAccent[700],
+                                                backgroundImage: NetworkImage(
+                                                    snapshot.data?[i]
+                                                        .getFoto(),), 
+                                              ),
+                                              SizedBox(
                                         height: 8.0,
                                       ),
                                       Text(
@@ -172,19 +190,19 @@ class DetallePage extends StatelessWidget {
                                         style: GoogleFonts.raleway(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w600,
+                                        ),),
+                                        SizedBox(
+                                          height: 3.0,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 3.0,
-                                      ),
-                                      Text(
-                                        actorNombre.toString(),
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.raleway(
-                                          color: Colors.black54,
+                                        Text(
+                                          actorNombre.toString(),
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.raleway(
+                                            color: Colors.black54,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -193,7 +211,7 @@ class DetallePage extends StatelessWidget {
                         ),
                       );
                     } else if (snapshot.hasError) {
-                      return Text('No hay conexion a internet');
+                      return Text(snapshot.error.toString());
                     } else {
                       return Center(
                         child: CircularProgressIndicator(
